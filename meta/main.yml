@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  role_name: valheim_server
+  description: Ansible role to install and configure a Valheim server.
+  author: kirill-shtrykov
+  license: MIT
+
+  min_ansible_version: "2.21"
+
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm  # 12
+        - trixie    # 13
+
+dependencies:
+  - steamcmd

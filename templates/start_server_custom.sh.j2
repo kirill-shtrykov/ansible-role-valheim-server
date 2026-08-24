@@ -1,0 +1,23 @@
+#!/bin/bash
+
+export templdpath=$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=./linux64:$LD_LIBRARY_PATH
+export SteamAppId={{ valheim_server_game_id }}
+
+echo "Starting Valheim server..."
+
+# https://docs.unity3d.com/Manual/CommandLineArguments.html
+{{ steamcmd_user_home }}/valheim/valheim_server.x86_64 \
+    -name "{{ valheim_server_name }}" \
+    -port {{ valheim_server_port }} \
+    -world "{{ valheim_server_world }}" \
+    -savedir "{{ valheim_server_savedir }}" \
+    -password "{{ valheim_server_password }}" \
+    -public {% if valheim_server_public %}1{% else %}0{% endif %} \
+{% for item in valheim_server_modifiers | dict2items %}
+    -modifier {{ item.key }} {{ item.value }} \
+{% endfor %}
+    -nographics \
+    -batchmode
+
+export LD_LIBRARY_PATH=$templdpath

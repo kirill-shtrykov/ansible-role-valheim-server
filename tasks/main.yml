@@ -1,0 +1,30 @@
+---
+- name: Ensure Valheim server directory exists
+  ansible.builtin.file:
+    path: "{{ steamcmd_user_home }}/valheim"
+    state: directory
+    mode: "0755"
+    owner: "{{ steamcmd_user }}"
+
+- name: Configure Valheim server startup script
+  ansible.builtin.template:
+    src: templates/start_server_custom.sh.j2
+    dest: "{{ steamcmd_user_home }}/valheim/start_server_custom.sh"
+    mode: "0755"
+    owner: "{{ steamcmd_user }}"
+  notify: Restart Valheim server service
+
+- name: Add SystemD service file
+  ansible.builtin.template:
+    src: templates/valheim-server.service.j2
+    dest: /etc/systemd/system/valheim-server.service
+    mode: "0644"
+  notify:
+    - Reload systemd daemon
+    - Restart Valheim server service
+
+- name: Start and enable server
+  ansible.builtin.systemd_service:
+    name: valheim-server
+    enabled: true
+    state: started

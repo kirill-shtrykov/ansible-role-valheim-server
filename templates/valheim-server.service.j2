@@ -1,0 +1,23 @@
+[Unit]
+Description=Valheim Dedicated Server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User={{ steamcmd_user }}
+Group={{ steamcmd_user }}
+WorkingDirectory={{ steamcmd_user_home }}/valheim
+
+ExecStartPre=/usr/games/steamcmd +force_install_dir {{ steamcmd_user_home }}/valheim +login anonymous +app_update {{ valheim_server_id }} +quit
+ExecStart={{ steamcmd_user_home }}/valheim/start_server_custom.sh
+CapabilityBoundingSet=CAP_SYS_NICE
+AmbientCapabilities=CAP_SYS_NICE
+
+KillSignal=SIGINT
+ExecReload=/bin/kill -s HUP $MAINPID
+TimeoutStartSec=10min
+RestartSec=5
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

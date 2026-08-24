@@ -1,0 +1,27 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  vars:
+    steamcmd_user: steam
+    steamcmd_user_home: /home/steam
+    valheim_server_port: 2456
+    valheim_server_world: TestWorld
+    valheim_server_savedir: /home/steam/valheim
+    valheim_server_password: testpassword
+    valheim_server_public: false
+    valheim_server_modifiers:
+      DeathPenalty: casual
+
+  pre_tasks:
+    - name: Create Steam user
+      ansible.builtin.user:
+        name: "{{ steamcmd_user }}"
+        home: "{{ steamcmd_user_home }}"
+        create_home: true
+
+  tasks:
+    - name: Run role
+      ansible.builtin.include_role:
+        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"

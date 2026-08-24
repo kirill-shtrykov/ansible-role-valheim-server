@@ -1,0 +1,9 @@
+---
+- name: Reload systemd daemon
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
+- name: Restart Valheim server service
+  ansible.builtin.systemd_service:
+    name: valheim-server
+    state: restarted
