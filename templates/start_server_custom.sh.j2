@@ -14,8 +14,12 @@ echo "Starting Valheim server..."
     -savedir "{{ valheim_server_savedir }}" \
     -password "{{ valheim_server_password }}" \
     -public {% if valheim_server_public %}1{% else %}0{% endif %} \
+    -preset {{ valheim_server_preset }} \
 {% for item in valheim_server_modifiers | dict2items %}
     -modifier {{ item.key }} {{ item.value }} \
+{% endfor %}
+{% for item in valheim_server_keys %}
+    -setkey {{ item }} \
 {% endfor %}
     -nographics \
     -batchmode

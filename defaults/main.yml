@@ -2,9 +2,11 @@
 valheim_server_name: "Valheim Dedicated Server"
 valheim_server_id: 896660
 valheim_server_game_id: 892970
-valheim_server_modifiers: []
 valheim_server_savedir: "./save"
 valheim_server_port: 2456
 valheim_server_world: Dedicated
 valheim_server_password: "changeme"
 valheim_server_public: true
+valheim_server_preset: normal
+valheim_server_modifiers: {}
+valheim_server_keys: []
